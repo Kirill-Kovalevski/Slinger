@@ -6,5 +6,5 @@ import react from '@vitejs/plugin-react'
 // If your repo is "<you>/<you>.github.io", change to base: '/'.
 export default defineConfig({
   plugins: [react()],
-  base: '/slinger/',
+  base: '/Slinger/',
 })
