@@ -1,30 +1,30 @@
 @use "sass:color";
 
-/* ============================================================================
-   Slinger 2025 — ultra-styled duel
-   - Height-first responsive layout (iPhone 12 Pro+ perfect)
-   - Fixed landing ring; feather with natural flutter
-   - Metallic guns w/ masks, glints, textured grips
-   - Cinematic slow-mo: chromatic aberration, shockwave, trails, vignette
-   ============================================================================ */
+/* ======================================================================
+   Slinger — 2025 polish (phones first, iPhone 12 Pro+ perfect)
+   - Fixed landing ring above fighters
+   - Feather flutter path into ring
+   - 3-D stick figures (shaded limbs, torso highlight, hands)
+   - Realistic pistol (slide, barrel, sights, ejection port, guard, trigger,
+     rail, textured grip, screws, glint)
+   - Cinematic replay: chroma, shockwave, bright trails
+   ====================================================================== */
 
-/* ===== Theme =============================================================== */
 :root{
   --bg:#0b101a; --ink:#eaf2ff; --ink-d:#c6d6f1; --line:#1b2336;
   --ac:#4db2ff; --ac2:#00ffc6; --gold:#ffdd6e; --win:#9dff6a; --rose:#ff9ad1;
 }
-html, body, #root { height: 100%; }
+html, body, #root { height:100%; }
 body{
-  margin:0;
-  font-family:'Rubik',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial,sans-serif;
-  color:var(--ink);
+  margin:0; color:var(--ink);
+  font-family:'Rubik',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
   background:
-    radial-gradient(1600px 1200px at 50% -220px, #1a2744 0%, #0f1729 40%, #090e16 70%),
+    radial-gradient(1600px 1200px at 50% -220px, #1a2744 0%, #0f1729 45%, #090e16 75%),
     radial-gradient(1200px 900px at 50% 120%, rgba(0,0,0,.35), transparent 70%);
   overscroll-behavior:none; -webkit-tap-highlight-color:transparent;
 }
 
-/* ===== Topbar ============================================================= */
+/* ---------- Topbar ---------- */
 .topbar{
   position:sticky; top:0; z-index:6;
   padding:max(.6rem, env(safe-area-inset-top)) clamp(.9rem,4vw,1.2rem) .6rem;
@@ -33,20 +33,17 @@ body{
   backdrop-filter: blur(6px);
   display:grid; gap:.5rem;
 }
-.brand{
-  font-weight:900; font-size: clamp(1.1rem, 1.2rem + .6vw, 1.6rem);
-  letter-spacing:.02em; text-shadow:0 1px 0 rgba(255,255,255,.06);
-}
+.brand{ font-weight:900; font-size:clamp(1.1rem,1.2rem + .6vw,1.6rem); letter-spacing:.02em; }
 .toolbar{ display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; }
 .mode{
-  display:flex; gap:.7rem; align-items:center;
-  background:#0c1323; border:1px solid var(--line); border-radius:999px; padding:.25rem .6rem;
+  display:flex; gap:.7rem; align-items:center; padding:.25rem .6rem;
+  background:#0c1323; border:1px solid var(--line); border-radius:999px;
   label{ display:flex; gap:.35rem; align-items:center; opacity:.9; cursor:pointer; }
-  input{ accent-color: var(--ac) }
+  input{ accent-color:var(--ac) }
 }
-.names{
-  flex:1; display:flex; justify-content:center; gap:.5rem; min-width:260px;
-  .name{ width:9.5rem; padding:.45rem .6rem; border-radius:12px; border:1px solid var(--line); background:#0b1324; color:var(--ink); outline:none; }
+.names{ flex:1; display:flex; justify-content:center; gap:.5rem; min-width:260px;
+  .name{ width:9.5rem; padding:.45rem .6rem; border-radius:12px; border:1px solid var(--line);
+         background:#0b1324; color:var(--ink); outline:none; }
   .sep{ align-self:center; opacity:.75; }
 }
 .btn{
@@ -55,14 +52,13 @@ body{
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
 }
 
-/* ===== Stage (height-first) ============================================== */
+/* ---------- Stage ---------- */
 .stage{
   height: calc(100dvh - 112px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   display:grid; align-items:stretch; padding: clamp(.6rem, 2.5vw, 1rem);
 }
 .arena{
-  position:relative; margin:0 auto; width:min(100%, 50rem);
-  aspect-ratio: 9/16; max-height:100%;
+  position:relative; margin:0 auto; width:min(100%, 50rem); aspect-ratio:9/16; max-height:100%;
   border:1px solid var(--line); border-radius:22px; overflow:hidden; touch-action:none;
   background:
     linear-gradient(180deg,#0e1527,#0a0f1d 45%,#0a0d16 100%),
@@ -70,7 +66,6 @@ body{
   box-shadow:0 0 0 1px rgba(77,178,255,.08) inset, 0 22px 60px rgba(0,0,0,.6);
   isolation:isolate;
 }
-/* scanlines + bloom */
 .arena::before{
   content:""; position:absolute; inset:0; pointer-events:none; z-index:1;
   background:
@@ -78,24 +73,15 @@ body{
     radial-gradient(120% 100% at 50% -10%, rgba(255,255,255,.03), transparent 60%);
   mix-blend-mode:soft-light;
 }
-
-/* blur wrapper */
 .arena-content{ position:absolute; inset:0; z-index:2; }
-.arena-content.is-blurred{ filter: blur(3px) saturate(1.06); transform: translateZ(0); }
+.arena-content.is-blurred{ filter:blur(3px) saturate(1.06); transform:translateZ(0); }
+.arena.armed{ box-shadow:0 0 0 2px rgba(255,221,110,.25) inset, 0 0 80px rgba(255,221,110,.25), 0 30px 80px rgba(0,0,0,.7); }
 
-/* armed frame glow */
-.arena.armed{
-  box-shadow:
-    0 0 0 2px rgba(255,221,110,.25) inset,
-    0 0 80px rgba(255,221,110,.25),
-    0 30px 80px rgba(0,0,0,.7);
-}
-
-/* halves for PvP */
+/* PvP halves */
 .arena.pvp .half{ position:absolute; inset:0 50% 0 0; background:linear-gradient(180deg, rgba(16,26,46,.14), transparent 90%); }
 .arena.pvp .half.right{ inset:0 0 0 50%; background:linear-gradient(180deg, rgba(46,16,26,.14), transparent 90%); }
 .arena.pvp .pvpName{
-  position:absolute; bottom:11%; left:50%; transform:translateX(-50%);
+  position:absolute; bottom:12%; left:50%; transform:translateX(-50%);
   padding:.3rem .55rem; border:1px solid var(--line); border-radius:10px;
   background:rgba(9,14,25,.6); backdrop-filter: blur(4px); font-size:.9rem;
 }
@@ -108,198 +94,170 @@ body{
   z-index:2;
 }
 
-/* ===== Ring (fixed) ===================================================== */
-.ring{
-  position:absolute; left:var(--target-x,50%); transform:translateX(-50%); bottom:18%;
-  width:58px; height:58px; border-radius:50%;
+/* ---------- Fixed ring (higher; does not move) ---------- */
+.ring.fixed{
+  position:absolute; left:50%; transform:translateX(-50%); bottom:30%;
+  width:66px; height:66px; border-radius:50%;
   background:
     conic-gradient(from 0deg, #8abaff, #2b4772 25%, #8abaff 50%, #2b4772 75%, #8abaff),
     radial-gradient(45px 45px at 50% 50%, rgba(78, 178, 255, .18), transparent 60%);
-  -webkit-mask: radial-gradient(circle at 50% 50%, transparent 22px, #000 24px);
-          mask: radial-gradient(circle at 50% 50%, transparent 22px, #000 24px);
+  -webkit-mask: radial-gradient(circle at 50% 50%, transparent 24px, #000 26px);
+          mask: radial-gradient(circle at 50% 50%, transparent 24px, #000 26px);
   border:2px dashed #2b3f67;
   box-shadow:0 0 0 2px rgba(77,178,255,.10) inset, 0 0 40px rgba(90,209,255,.08);
   z-index:2;
 }
 .ring.pulse{ animation:ringPulse 1.25s ease-in-out infinite; }
-@keyframes ringPulse{
-  0%,100%{ box-shadow:0 0 0 2px rgba(77,178,255,.08) inset }
-  50%{ box-shadow:0 0 22px 8px rgba(90,209,255,.22) }
-}
+@keyframes ringPulse{ 0%,100%{ box-shadow:0 0 0 2px rgba(77,178,255,.08) inset } 50%{ box-shadow:0 0 22px 8px rgba(90,209,255,.22) } }
 
-/* ===== Fighters (smaller; real grip + hands) =========================== */
+/* ---------- Fighters (3-D) ---------- */
 .fighter{
-  position:absolute; bottom:12%; filter: hue-rotate(var(--hue,0));
-  &.left{ left:10%; } &.right{ right:10%; } &.mirror{ transform: scaleX(-1); }
-  .stick{ position:relative; width:46px; height:126px; }
-  .head{ width:28px; height:28px; border-radius:50%; background: radial-gradient(circle at 30% 30%, #fff, var(--tone,#8ec5ff)); margin:0 auto 8px; box-shadow:0 2px 10px rgba(125,182,255,.35); }
-  .band{ position:absolute; width:30px; height:6px; left:50%; top:4px; transform:translateX(-50%); background:linear-gradient(90deg, #ff6b6b, #ffd36e); border-radius:8px; }
-  .body{ width:6px; height:54px; margin:0 auto; background: var(--tone,#8ec5ff); }
-  .arm{ position:absolute; left:50%; top:46px; width:46px; height:6px; background: var(--tone,#8ec5ff); transform-origin:left center; }
-  .aL{ transform: translateX(-6px) rotate(8deg) }
-  .aR{ transform: translateX(-40px) rotate(-8deg) }
-  .leg{ position:absolute; left:50%; bottom:0; width:6px; height:44px; background: var(--tone,#8ec5ff) }
-  .lL{ transform: translateX(-9px) rotate(6deg); transform-origin:top }
-  .lR{ transform: translateX(4px) rotate(-4deg); transform-origin:top }
-  .handL,.handR{ position:absolute; width:10px; height:10px; border-radius:50%; background: radial-gradient(circle at 30% 30%, #fff, var(--tone,#8ec5ff)); top:58px; }
-  .handL{ left:34px } .handR{ left:18px }
+  position:absolute; bottom:12%; filter:hue-rotate(var(--hue,0));
+  &.left{ left:10%; } &.right{ right:10%; } &.mirror{ transform:scaleX(-1); }
+
+  .stick{ position:relative; width:54px; height:132px; }
+
+  .head{
+    width:30px; height:30px; border-radius:50%;
+    background:
+      radial-gradient(circle at 30% 30%, #fff 0 40%, color-mix(in oklab, var(--tone,#a9d1ff) 80%, #3c5a8a 20%)),
+      radial-gradient(60% 60% at 65% 70%, rgba(0,0,0,.25), transparent 70%);
+    margin:0 auto 6px; box-shadow:0 2px 10px rgba(125,182,255,.35);
+  }
+  .neck{ width:6px; height:8px; margin:0 auto; background:linear-gradient(180deg, var(--tone,#a9d1ff), #45649a); border-radius:4px; }
+  .torso{
+    width:10px; height:54px; margin:2px auto 0; border-radius:6px;
+    background:
+      linear-gradient(90deg, rgba(255,255,255,.18), rgba(255,255,255,0)),
+      linear-gradient(180deg, #8fb4eb, #42649a 80%, #2d4575);
+    box-shadow: inset 0 0 10px rgba(0,0,0,.25);
+  }
+
+  .arm, .forearm, .leg{
+    position:absolute; left:50%; background:linear-gradient(180deg, var(--tone,#a9d1ff), #3e5f94);
+    border-radius:4px; box-shadow:inset 0 0 6px rgba(0,0,0,.25);
+  }
+  .arm{ top:48px; width:28px; height:6px; transform-origin:left center; }
+  .aL{ transform:translateX(-6px) rotate(12deg) } .aR{ transform:translateX(-44px) rotate(-10deg) }
+  .forearm{ top:58px; width:26px; height:6px; transform-origin:left center; }
+  .fL{ transform:translateX(16px) rotate(-4deg) } .fR{ transform:translateX(-26px) rotate(4deg) }
+
+  .leg{ bottom:0; width:8px; height:46px; }
+  .lL{ transform:translateX(-9px) rotate(6deg) } .lR{ transform:translateX(5px) rotate(-4deg) }
+
+  .handL, .handR{
+    position:absolute; top:62px; width:10px; height:10px; border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, #fff, var(--tone,#a9d1ff));
+  }
+  .handL{ left:38px } .handR{ left:18px }
+
+  .band{ position:absolute; width:32px; height:6px; left:50%; top:4px; transform:translateX(-50%); background:linear-gradient(90deg,#ff6b6b,#ffd36e); border-radius:8px; }
 }
 
-/* ===== Hyper-detailed gun ============================================= */
+/* ---------- Realistic pistol (multi-part CSS) ---------- */
 .fighter .gun{
-  position:absolute; left:30px; top:58px; height:20px; display:flex; align-items:center; gap:4px;
+  position:absolute; left:34px; top:60px; height:22px;
+  display:grid; grid-auto-flow:column; align-items:center; gap:3px;
   filter: drop-shadow(0 2px 10px rgba(0,0,0,.45));
 }
-$steelTop:#e7eeff; $steel:#a8bee9; $steelLow:#6f8fca;
-@mixin metal($c1){
-  background:
-    conic-gradient(from 210deg, color.mix($c1, white, 85%) 0 10%, $c1 40%, white 60%, $c1 90%, color.mix($c1, white, 85%)),
-    linear-gradient(180deg, $steelTop, $c1);
-  border:1px solid $steelLow;
+
+/* fancy metal helper */
+$steelTop:#eff4ff; $steel:#bcd0f3; $steelLow:#6f8fca;
+@mixin metal($c1){ background:conic-gradient(from 210deg, color.mix($c1, white, 85%) 0 12%, $c1 38%, white 60%, $c1 88%, color.mix($c1, white, 85%)); border:1px solid $steelLow; }
+
+.gun .slide{ width:42px; height:12px; border-radius:3px; @include metal(#9ab3ec); position:relative; }
+.gun .barrel{ width:24px; height:8px; border-radius:3px; @include metal(#86a3e4); margin-left:-14px; }
+.gun .muzzle-port{ width:6px; height:6px; border-radius:50%; background:#1c2f52; border:2px solid #c8d8ff; margin-left:-18px; }
+.gun .front-sight{ width:6px; height:5px; background:#cfe0ff; border:1px solid #8ba8df; border-radius:1px; margin-left:-6px; }
+.gun .rear-sight { width:10px; height:6px; background:#cfe0ff; border:1px solid #8ba8df; border-radius:1px; margin-left:-14px; }
+.gun .ejection   { width:12px; height:6px; background:#203356; border:1px solid #13233e; margin-left:-20px; }
+
+.gun .frame{ width:20px; height:12px; border-radius:3px; background:linear-gradient(180deg,#7ba0e6,#4d71bf); border:1px solid #3c5ea6; }
+.gun .trigger-guard{ width:14px; height:10px; border:2px solid #bcd2ff; border-top-color:transparent; border-left-color:transparent; border-radius:12px; margin-left:-8px; }
+.gun .trigger{ width:8px; height:8px; border:2px solid #bcd2ff; border-left-color:transparent; border-top-color:transparent; border-radius:50%; margin-left:-14px; }
+
+.gun .grip{
+  width:18px; height:22px; border-radius:6px; background:linear-gradient(180deg,#273e67,#1e2f4b);
+  border:1px solid #17263e; transform:skewY(-12deg); position:relative; overflow:hidden;
+  &::after{ content:""; position:absolute; inset:0; background:repeating-linear-gradient(135deg, rgba(255,255,255,.22) 0 2px, transparent 2px 6px); mix-blend-mode:soft-light; }
 }
-.gun .barrel{ width:42px; height:9px; border-radius:3px; @include metal($steel);
-  -webkit-mask: radial-gradient(circle at 8px 50%, rgba(0,0,0,0) 0 2px, #000 2.5px), linear-gradient(#000,#000);
-          mask: radial-gradient(circle at 8px 50%, rgba(0,0,0,0) 0 2px, #000 2.5px), linear-gradient(#000,#000);
-  mask-composite: add, add;
+.gun .backstrap{
+  width:6px; height:22px; background:linear-gradient(180deg,#40629d,#2a456f); border:1px solid #1e3456; border-radius:4px; margin-left:-6px;
 }
-.gun .vent{ width:16px; height:8px; border-radius:2px; background: linear-gradient(180deg, #9fb9ef, #6286c9);
-  -webkit-mask: repeating-linear-gradient(90deg, #000 0 3px, transparent 3px 6px);
-          mask: repeating-linear-gradient(90deg, #000 0 3px, transparent 3px 6px); margin-left:-12px; }
-.gun .slide{ width:16px; height:11px; border-radius:2px; @include metal(#8eaef0); }
-.gun .cyl  { width:13px; height:13px; border-radius:50%; @include metal(#9db4e8); }
-.gun .rail { width:12px; height:4px; border-radius:2px; background:linear-gradient(180deg,#bfd3ff,#8fb1ff); }
-.gun .sight{ width:8px; height:6px;  border-radius:1px; background:linear-gradient(180deg,#eff5ff,#c2d6ff); margin-left:-6px; }
-.gun .frame{ width:14px; height:11px; border-radius:3px; background:linear-gradient(180deg,#7ca0e6,#577dc4); border:1px solid #4e72b5; }
-.gun .grip { width:14px; height:18px; border-radius:4px; background:linear-gradient(180deg,#2c4779,#1f2f4d); border:1px solid #1b2a43; transform:skewY(-12deg); }
-.gun .texture{ width:12px; height:16px; margin-left:-12px;
-  background: repeating-linear-gradient(135deg, rgba(255,255,255,.22) 0 2px, transparent 2px 6px); -webkit-mask: linear-gradient(#000,#000); mask: linear-gradient(#000,#000);
-}
-.gun .guard{ width:12px; height:9px; border:2px solid #bcd2ff; border-top-color:transparent; border-left-color:transparent; border-radius:12px; margin-left:-7px; }
-.gun .trigger{ width:8px; height:8px; border:2px solid #bcd2ff; border-left-color:transparent; border-top-color:transparent; border-radius:50%; margin-left:-12px; }
-.gun .mag   { width:8px; height:12px; background:#1e2f4b; border:1px solid #17263e; border-radius:2px; }
-.gun .stock { width:18px; height:12px; border-radius:4px; background:linear-gradient(180deg,#496aa6,#2f4976); border:1px solid #243a61; transform:skewX(-12deg); }
+.gun .mag{ width:8px; height:14px; background:#1e2f4b; border:1px solid #17263e; border-radius:2px; }
+.gun .rail{ width:16px; height:4px; border-radius:2px; background:linear-gradient(180deg,#bfd3ff,#8fb1ff); }
+.gun .screws{ width:10px; height:10px; border-radius:50%; background: radial-gradient(circle at 50% 50%, #dfe8ff 0 35%, #6a89c3 36% 100%); box-shadow: inset 0 0 2px rgba(0,0,0,.35); margin-left:-6px; }
+.gun .glint{ width:26px; height:3px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent); margin-left:-18px; filter:blur(.5px) }
 
 /* variants */
-.fighter.gun-revolver .slide{ display:none }
-.fighter.gun-revolver .cyl{ display:block }
-.fighter.gun-pistol .cyl{ display:none }
-.fighter.gun-smg .stock{ width:16px; }
-.fighter.gun-shotgun .slide{ display:none } .fighter.gun-shotgun .barrel{ width:48px }
+.fighter.gun-revolver .slide{ width:28px } .fighter.gun-revolver .barrel{ width:28px } .fighter.gun-revolver .ejection{ display:none }
+.fighter.gun-smg .slide{ width:48px } .fighter.gun-shotgun .slide{ display:none } .fighter.gun-shotgun .barrel{ width:54px }
 
 /* recoil */
-.fighter.recoil .gun{ animation: recoil .14s ease }
+.fighter.recoil .gun{ animation:recoil .14s ease }
 @keyframes recoil{ 0%{ transform:translateX(0) } 40%{ transform:translateX(6px) } 100%{ transform:translateX(0) } }
 
-/* measurement point */
-.muzzle{ position:absolute; left: 72px; top: 56px; width: 10px; height:10px; border-radius:50%; pointer-events:none; }
+/* invisible measurement point */
+.muzzle{ position:absolute; left: 76px; top: 58px; width:10px; height:10px; border-radius:50%; pointer-events:none; }
 
-/* ===== Feather (natural flutter) ======================================= */
-.feather{
-  position:absolute; left:var(--target-x,50%); top:6%; transform:translate(-50%,0);
-  pointer-events:none; z-index:2;
-  filter:drop-shadow(0 8px 18px rgba(77,178,255,.35));
-}
-.feather .svg{ width: clamp(24px, 3.6vw, 34px); height:auto; }
-.feather .feather-inner{ will-change: transform; }
-.feather.fall{
-  transition: transform var(--fall) cubic-bezier(.19,.98,.4,1);
-  transform: translate(-50%, var(--fallY));
-}
-.feather.fall .feather-inner{
-  /* flutter + easing rotations */
-  animation: featherSway var(--fall) ease-in-out both;
-}
+/* ---------- Feather ---------- */
+.feather{ position:absolute; left:50%; top:8%; transform:translate(-50%,0); pointer-events:none; z-index:2; filter:drop-shadow(0 8px 18px rgba(77,178,255,.35)); }
+.feather .svg{ width:clamp(24px,3.6vw,34px); height:auto; }
+.feather .feather-inner{ will-change:transform; }
+.feather.fall{ transition:transform var(--fall) cubic-bezier(.19,.98,.4,1); transform:translate(-50%, var(--fallY)); }
+.feather.fall .feather-inner{ animation:featherSway var(--fall) ease-in-out both; }
 @keyframes featherSway{
-  0%   { transform: translateX(0) rotate(var(--rot1, -6deg)) }
-  25%  { transform: translateX(calc(var(--amp, 12px) * .6)) rotate(6deg) }
-  55%  { transform: translateX(calc(var(--amp, 12px) * -1)) rotate(var(--rot2, 8deg)) }
-  80%  { transform: translateX(calc(var(--amp, 12px) * .3)) rotate(-4deg) }
-  100% { transform: translateX(0) rotate(0deg) }
+  0%{ transform: translateX(0) rotate(var(--rot1,-8deg)) }
+  25%{ transform: translateX(calc(var(--amp,12px)*.6)) rotate(8deg) }
+  55%{ transform: translateX(calc(var(--amp,12px)*-1)) rotate(var(--rot2,10deg)) }
+  80%{ transform: translateX(calc(var(--amp,12px)*.3)) rotate(-5deg) }
+  100%{ transform: translateX(0) rotate(0deg) }
 }
-.feather.fade{ transition: opacity var(--fade) ease; opacity:0 }
+.feather.fade{ transition:opacity var(--fade,.35s) ease; opacity:0 }
 
-/* ===== Countdown / GOLDEN cue ========================================= */
+/* ---------- Countdown / GOLDEN cue ---------- */
 .countdown{
   position:absolute; inset:0; display:grid; place-items:center; z-index:3;
-  font-weight:900; font-size: clamp(1.4rem, 6.8vw, 2.2rem); color:#c7dbff;
-  text-shadow:0 2px 0 rgba(0,0,0,.25);
+  font-weight:900; font-size:clamp(1.4rem,6.8vw,2.2rem); color:#c7dbff; text-shadow:0 2px 0 rgba(0,0,0,.25);
 }
 .ready{ position:absolute; inset:0; display:grid; place-items:center; pointer-events:none; z-index:5; }
-.ready .halo{
-  position:absolute; inset:-20%;
-  background: radial-gradient(40% 40% at 50% 60%, rgba(255,221,110,.35), transparent 70%),
-              radial-gradient(35% 35% at 50% 60%, rgba(255,221,110,.25), transparent 70%);
-  filter: blur(12px); animation: haloPulse 1.2s ease-in-out infinite;
-}
+.ready .halo{ position:absolute; inset:-20%; background: radial-gradient(40% 40% at 50% 60%, rgba(255,221,110,.35), transparent 70%), radial-gradient(35% 35% at 50% 60%, rgba(255,221,110,.25), transparent 70%); filter: blur(12px); animation: haloPulse 1.2s ease-in-out infinite; }
 @keyframes haloPulse{ 0%,100%{ opacity:.75 } 50%{ opacity:.95 } }
-.ready .burst{
-  position:absolute; width:80vmin; height:80vmin; border-radius:50%;
-  background: repeating-conic-gradient(from 0deg, rgba(255,221,110,.0) 0 10deg, rgba(255,221,110,.25) 10deg 14deg);
-  filter: blur(10px); animation: spin 1.8s linear infinite;
-}
+.ready .burst{ position:absolute; width:80vmin; height:80vmin; border-radius:50%; background: repeating-conic-gradient(from 0deg, rgba(255,221,110,.0) 0 10deg, rgba(255,221,110,.25) 10deg 14deg); filter: blur(10px); animation: spin 1.8s linear infinite; }
 @keyframes spin{ to{ transform: rotate(360deg) } }
-.ready .call{
-  font-weight:900; letter-spacing:.12em; font-size: clamp(1.8rem, 8.5vw, 3.2rem);
-  background: linear-gradient(90deg, #fff3b0, #ffd36e);
-  background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
-  text-shadow: 0 0 32px rgba(255,221,110,.55);
-}
+.ready .call{ font-weight:900; letter-spacing:.12em; font-size:clamp(1.8rem,8.5vw,3.2rem); background:linear-gradient(90deg,#fff3b0,#ffd36e); background-clip:text; -webkit-background-clip:text; -webkit-text-fill-color:transparent; color:transparent; text-shadow:0 0 32px rgba(255,221,110,.55); }
 
-/* ===== Replay (cinematic) ============================================= */
+/* ---------- Replay ---------- */
 .replay{ position:absolute; inset:0; z-index:6; pointer-events:none; }
-.replay .overlay{
-  position:absolute; inset:0;
-  background: radial-gradient(60% 60% at 50% 40%, rgba(0,0,0,.18), rgba(0,0,0,.35));
-}
-/* chromatic aberration overlay */
-.fx-chroma{
-  position:absolute; inset:0; pointer-events:none; mix-blend-mode:screen; opacity:.25;
-  background:
-    linear-gradient(90deg, rgba(255,0,90,.10), rgba(0,255,255,.08));
-  filter: blur(1px) contrast(1.15);
-}
+.replay .overlay{ position:absolute; inset:0; background: radial-gradient(60% 60% at 50% 40%, rgba(0,0,0,.18), rgba(0,0,0,.35)); }
+.fx-chroma{ position:absolute; inset:0; mix-blend-mode:screen; opacity:.25; background:linear-gradient(90deg, rgba(255,0,90,.10), rgba(0,255,255,.08)); filter: blur(1px) contrast(1.15); }
 
-/* Bullets: fly using X and Y deltas */
+/* bullets travel using X & Y deltas */
 .bullet{
   position:absolute; width:12px; height:12px; border-radius:50%;
   background: radial-gradient(circle at 30% 40%, #fff 0 30%, #ffd27a 31% 65%, #d88929 66% 100%);
-  box-shadow: 0 0 12px rgba(255,209,102,.55), 0 0 30px rgba(255,209,102,.25);
+  box-shadow:0 0 12px rgba(255,209,102,.55), 0 0 30px rgba(255,209,102,.25);
   transform: translate(0,0) scale(1);
   animation: fly 1.25s cubic-bezier(.25,.85,.1,1) var(--delay,0ms) both;
 }
-@keyframes fly { to { transform: translate(var(--flyX), var(--flyY)) scale(1.06); } }
-
-/* trails */
+@keyframes fly{ to{ transform: translate(var(--flyX), var(--flyY)) scale(1.06); } }
 .bullet::after{
-  content:"";
-  position:absolute; top:5px; height:2px; width:140px;
-  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.75), rgba(255,255,255,0));
-  filter: blur(1px);
+  content:""; position:absolute; top:5px; height:2px; width:140px;
+  background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.75), rgba(255,255,255,0));
+  filter:blur(1px);
 }
 .bullet.from-left::after{ left:-140px }
-.bullet.from-right::after{ right:-140px; left:auto; transform: scaleX(-1); }
-.bullet.winner{ box-shadow: 0 0 22px rgba(157,255,106,.9), 0 0 50px rgba(157,255,106,.35); }
+.bullet.from-right::after{ right:-140px; left:auto; transform:scaleX(-1); }
+.bullet.winner{ box-shadow:0 0 22px rgba(157,255,106,.9), 0 0 50px rgba(157,255,106,.35); }
 
-/* shockwave at winner muzzle */
-.shockwave{
-  position:absolute; width:12px; height:12px; border-radius:50%;
-  transform: translate(-50%,-50%);
-  box-shadow: 0 0 0 0 rgba(255,255,255,.0);
-  animation: shock 1.4s cubic-bezier(.21,.9,.18,1) both;
-}
-.shockwave.draw{ filter: hue-rotate(110deg); }
+/* muzzle shockwave */
+.shockwave{ position:absolute; width:12px; height:12px; border-radius:50%; transform:translate(-50%,-50%); box-shadow:0 0 0 0 rgba(255,255,255,0); animation:shock 1.4s cubic-bezier(.21,.9,.18,1) both; }
+.shockwave.draw{ filter:hue-rotate(110deg); }
 @keyframes shock{
-  0%  { box-shadow: 0 0 0 0 rgba(255,255,255,.0) }
-  8%  { box-shadow: 0 0 0 0 rgba(255,255,255,.0) }
-  10% { box-shadow: 0 0 0 0 rgba(255,255,255,.65) }
-  60% { box-shadow:
-          0 0 0 18px rgba(255,255,255,.12),
-          0 0 0 36px rgba(255,221,110,.10),
-          0 0 0 64px rgba(157,255,106,.06) }
-  100%{ box-shadow:
-          0 0 0 24px rgba(255,255,255,.0),
-          0 0 0 64px rgba(255,221,110,.0),
-          0 0 0 90px rgba(157,255,106,.0) }
+  0%{ box-shadow:0 0 0 0 rgba(255,255,255,0) }
+  10%{ box-shadow:0 0 0 0 rgba(255,255,255,.7) }
+  60%{ box-shadow:0 0 0 18px rgba(255,255,255,.15), 0 0 0 36px rgba(255,221,110,.12), 0 0 0 64px rgba(157,255,106,.08) }
+  100%{ box-shadow:0 0 0 24px rgba(255,255,255,0), 0 0 0 64px rgba(255,221,110,0), 0 0 0 90px rgba(157,255,106,0) }
 }
 
 .replay .times{
@@ -309,16 +267,11 @@ $steelTop:#e7eeff; $steel:#a8bee9; $steelLow:#6f8fca;
 }
 .replay .delta{ color:#cbd6ff } .replay .delta.draw{ color:var(--gold) }
 
-/* ===== Result blip ===================================================== */
+/* ---------- Result ---------- */
 .result{ position:absolute; inset:0; display:grid; place-items:center; z-index:6; }
-.banner{
-  padding:.9rem 1.1rem; border-radius:14px; border:1px solid var(--line);
-  background:linear-gradient(180deg,#0f1628,#0c1322);
-  font-weight:900; letter-spacing:.03em;
-  box-shadow: 0 18px 50px rgba(0,0,0,.6), 0 0 0 2px rgba(77,178,255,.12) inset;
-}
+.banner{ padding:.9rem 1.1rem; border-radius:14px; border:1px solid var(--line); background:linear-gradient(180deg,#0f1628,#0c1322); font-weight:900; letter-spacing:.03em; box-shadow: 0 18px 50px rgba(0,0,0,.6), 0 0 0 2px rgba(77,178,255,.12) inset; }
 
-/* ===== Scorebar ======================================================== */
+/* ---------- Scorebar ---------- */
 .scorebar{
   position:sticky; bottom:0; z-index:7;
   padding:.55rem clamp(.9rem,4vw,1.2rem) max(.55rem, env(safe-area-inset-bottom));
@@ -326,24 +279,12 @@ $steelTop:#e7eeff; $steel:#a8bee9; $steelLow:#6f8fca;
   background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.18));
   display:grid; grid-template-columns:1fr auto 1fr; gap:.6rem; align-items:center;
 }
-.chip{
-  display:flex; align-items:center; gap:.55rem; padding:.35rem .6rem;
-  background:#0c1323; border:1px solid var(--line); border-radius:999px;
-  box-shadow: inset 0 0 8px rgba(77,178,255,.18);
-}
+.chip{ display:flex; align-items:center; gap:.55rem; padding:.35rem .6rem; background:#0c1323; border:1px solid var(--line); border-radius:999px; box-shadow: inset 0 0 8px rgba(77,178,255,.18); }
 .chip .label{ max-width:12ch; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; opacity:.9 }
-.chip .num{
-  min-width:2rem; height:2rem; display:grid; place-items:center; font-weight:900;
-  background: radial-gradient(60% 60% at 50% 40%, #233559, #17233b 60%, #0f182b 100%);
-  border:1px solid #23375f; border-radius:999px;
-  box-shadow: inset 0 0 8px rgba(77,178,255,.25), 0 0 22px rgba(77,178,255,.18);
-}
+.chip .num{ min-width:2rem; height:2rem; display:grid; place-items:center; font-weight:900; background: radial-gradient(60% 60% at 50% 40%, #233559, #17233b 60%, #0f182b 100%); border:1px solid #23375f; border-radius:999px; box-shadow: inset 0 0 8px rgba(77,178,255,.25), 0 0 22px rgba(77,178,255,.18); }
 .center{ display:grid; place-items:center; line-height:1.05 }
-.center .level{ font-weight:900 }
-.center .fto{ opacity:.82; font-size:.92rem }
+.center .level{ font-weight:900 } .center .fto{ opacity:.82; font-size:.92rem }
 
-/* ===== Utilities & media ============================================== */
-@supports (selector(:has(*))){
-  .arena:has(.ready){ outline:1px solid rgba(255,221,110,.18); outline-offset:-1px; }
-}
-@media (min-width: 780px){ .arena{ aspect-ratio: 16/9; } }
+/* ---------- extras ---------- */
+@supports (selector(:has(*))){ .arena:has(.ready){ outline:1px solid rgba(255,221,110,.18); outline-offset:-1px; } }
+@media (min-width:780px){ .arena{ aspect-ratio:16/9; } }

@@ -1,8 +1,10 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+// vite.config.ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
-// Re-enable the overlay so you see errors instead of a blank page
+// If your repo is "<you>/slinger", keep base as '/slinger/'.
+// If your repo is "<you>/<you>.github.io", change to base: '/'.
 export default defineConfig({
   plugins: [react()],
-  server: { hmr: { overlay: true } },
-});
+  base: '/slinger/',
+})
